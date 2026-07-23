@@ -1,87 +1,122 @@
 async function loadData() {
-    const response = await fetch("data.json");
-    const data = await response.json();
+    try {
 
-    // Profile
-    document.getElementById("name").textContent = data.name || "";
-    document.getElementById("designation").textContent = data.designation || "";
-    document.getElementById("company").textContent = data.company || "";
-    document.getElementById("tagline").textContent = data.tagline || "";
+        const response = await fetch("data.json");
+        const data = await response.json();
 
-    // Profile Image
-    if (data.profileImage) {
-        const img = document.getElementById("profileImage");
-        img.src = data.profileImage;
-        img.style.display = "block";
-    }
+        // Profile
+        document.getElementById("name").textContent = data.name || "";
+        document.getElementById("designation").textContent = data.designation || "";
+        document.getElementById("company").textContent = data.company || "";
+        document.getElementById("tagline").textContent = data.tagline || "";
 
-    // Call
-    if (data.phone) {
-        const btn = document.getElementById("callBtn");
-        btn.href = "tel:" + data.phone;
-        btn.style.display = "flex";
-    }
-
-    // WhatsApp
-    if (data.whatsapp) {
-        const btn = document.getElementById("whatsappBtn");
-        btn.href = "https://wa.me/" + data.whatsapp;
-        btn.style.display = "flex";
-    }
-
-    // Email
-    if (data.email) {
-        const btn = document.getElementById("emailBtn");
-        btn.href = "mailto:" + data.email;
-        btn.style.display = "flex";
-    }
-
-    // Website
-    if (data.website) {
-        const btn = document.getElementById("websiteBtn");
-        btn.href = data.website;
-        btn.target = "_blank";
-        btn.style.display = "flex";
-    }
-
-    // Directions
-    if (data.googleMaps) {
-        const btn = document.getElementById("directionBtn");
-        btn.href = data.googleMaps;
-        btn.target = "_blank";
-        btn.style.display = "flex";
-    }
-
-    // About
-    if (data.about) {
-        document.getElementById("about").textContent = data.about;
-        document.getElementById("aboutSection").style.display = "block";
-    }
-
-    // Address
-    if (data.address) {
-        document.getElementById("address").textContent = data.address;
-        document.getElementById("addressSection").style.display = "block";
-    }
-
-    // Save Contact
-const saveBtn = document.getElementById("saveBtn");
-saveBtn.href = "contact.vcf";
-saveBtn.download = data.name + ".vcf";
-saveBtn.style.display = "flex";
-    
-    // Share Button
-    document.getElementById("shareBtn").addEventListener("click", async () => {
-        if (navigator.share) {
-            await navigator.share({
-                title: data.name,
-                text: data.company,
-                url: window.location.href
-            });
-        } else {
-            alert("Sharing is not supported on this device.");
+        // Profile Image
+        if (data.profileImage) {
+            const img = document.getElementById("profileImage");
+            if (img) {
+                img.src = data.profileImage;
+                img.style.display = "block";
+            }
         }
-    });
+
+        // Call
+        if (data.phone) {
+            const btn = document.getElementById("callBtn");
+            if (btn) {
+                btn.href = "tel:" + data.phone;
+                btn.style.display = "flex";
+            }
+        }
+
+        // WhatsApp
+        if (data.whatsapp) {
+            const btn = document.getElementById("whatsappBtn");
+            if (btn) {
+                btn.href = "https://wa.me/" + data.whatsapp;
+                btn.style.display = "flex";
+            }
+        }
+
+        // Email
+        if (data.email) {
+            const btn = document.getElementById("emailBtn");
+            if (btn) {
+                btn.href = "mailto:" + data.email;
+                btn.style.display = "flex";
+            }
+        }
+
+        // Website
+        if (data.website) {
+            const btn = document.getElementById("websiteBtn");
+            if (btn) {
+                btn.href = data.website;
+                btn.target = "_blank";
+                btn.style.display = "flex";
+            }
+        }
+
+        // Directions
+        if (data.googleMaps) {
+            const btn = document.getElementById("directionBtn");
+            if (btn) {
+                btn.href = data.googleMaps;
+                btn.target = "_blank";
+                btn.style.display = "flex";
+            }
+        }
+
+        // About
+        if (data.about) {
+            const about = document.getElementById("about");
+            const aboutSection = document.getElementById("aboutSection");
+
+            if (about && aboutSection) {
+                about.textContent = data.about;
+                aboutSection.style.display = "block";
+            }
+        }
+
+        // Address
+        if (data.address) {
+            const address = document.getElementById("address");
+            const addressSection = document.getElementById("addressSection");
+
+            if (address && addressSection) {
+                address.textContent = data.address;
+                addressSection.style.display = "block";
+            }
+        }
+
+        // Save Contact
+        const saveBtn = document.getElementById("saveBtn");
+
+        if (saveBtn) {
+            saveBtn.href = "contact.vcf";
+            saveBtn.setAttribute("download", (data.name || "Contact") + ".vcf");
+            saveBtn.style.display = "flex";
+        }
+
+        // Share
+        const shareBtn = document.getElementById("shareBtn");
+
+        if (shareBtn) {
+            shareBtn.addEventListener("click", async () => {
+                if (navigator.share) {
+                    await navigator.share({
+                        title: data.name,
+                        text: data.company,
+                        url: window.location.href
+                    });
+                } else {
+                    alert("Sharing is not supported on this device.");
+                }
+            });
+        }
+
+    } catch (err) {
+        console.error("SCRIPT ERROR:", err);
+    }
 }
 
 loadData();
