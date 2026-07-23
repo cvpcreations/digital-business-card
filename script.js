@@ -64,6 +64,12 @@ async function loadData() {
         document.getElementById("addressSection").style.display = "block";
     }
 
+    // Save Contact
+const saveBtn = document.getElementById("saveBtn");
+saveBtn.href = "contact.vcf";
+saveBtn.download = data.name + ".vcf";
+saveBtn.style.display = "flex";
+    
     // Share Button
     document.getElementById("shareBtn").addEventListener("click", async () => {
         if (navigator.share) {
