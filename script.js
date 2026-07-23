@@ -25,14 +25,23 @@ async function loadData() {
 
         } else {
 
-            const initials = (data.name || "")
-                .split(" ")
-                .map(word => word.charAt(0))
-                .join("")
-                .substring(0, 2)
-                .toUpperCase();
+            const words = (data.name || "")
+                .trim()
+                .split(/\s+/)
+                .filter(word => word.length > 0);
 
-            profileInitials.textContent = initials || "CV";
+            let initials = "";
+
+            if (words.length >= 2) {
+                initials =
+                    words[0][0].toUpperCase() +
+                    words[1][0].toUpperCase();
+            }
+            else if (words.length === 1) {
+                initials = words[0].substring(0, 2).toUpperCase();
+            }
+
+            profileInitials.textContent = initials;
             profileInitials.style.display = "flex";
             profileImage.style.display = "none";
         }
@@ -116,7 +125,7 @@ async function loadData() {
 
             } else {
 
-                navigator.clipboard.writeText(window.location.href);
+                await navigator.clipboard.writeText(window.location.href);
 
                 alert("Link copied to clipboard.");
 
