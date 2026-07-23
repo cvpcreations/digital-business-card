@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Digital Business Card</title>
+
+    <meta name="theme-color" content="#f5f5f7">
+
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Background Decoration -->
+    <div class="bg-circle bg1"></div>
+    <div class="bg-circle bg2"></div>
+
+    <div class="container">
+
+        <!-- HERO CARD -->
+
+        <section id="profileSection" class="card hero-card">
+
+            <div class="profile-wrapper">
+
+                <img id="profileImage" src="" alt="Profile" style="display:none;">
+
+                <div id="profileInitials" style="display:flex;">
+                </div>
+
+            </div>
+
+            <h1 id="name"></h1>
+
+            <p id="designation"></p>
+
+            <h2 id="company"></h2>
+
+            <p id="tagline"></p>
+
+        </section>
+
+        <!-- ACTION BUTTONS -->
+
+        <section id="buttonsSection" class="card">
+
+            <div class="button-grid">
+
+                <a id="callBtn" class="action-btn" style="display:none;">
+                    <i class="fa-solid fa-phone"></i>
+                    <span>Call</span>
+                </a>
+
+                <a id="whatsappBtn" class="action-btn" style="display:none;">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    <span>WhatsApp</span>
+                </a>
+
+                <a id="saveBtn" class="action-btn" style="display:none;">
+                    <i class="fa-solid fa-address-book"></i>
+                    <span>Save Contact</span>
+                </a>
+
+                <a id="shareBtn" class="action-btn">
+                    <i class="fa-solid fa-share-nodes"></i>
+                    <span>Share</span>
+                </a>
+
+            </div>
+
+        </section>
+
+        <!-- ABOUT -->
+
+        <section id="aboutSection" class="card" style="display:none;">
+
+            <div class="section-heading">
+
+                <i class="fa-solid fa-circle-info"></i>
+
+                <h3>About</h3>
+
+            </div>
+
+            <p id="about"></p>
+
+        </section>
+
+        <!-- ADDRESS -->
+
+        <section id="addressSection" class="card" style="display:none;">
+
+            <div class="section-heading">
+
+                <i class="fa-solid fa-location-dot"></i>
+
+                <h3>Office Address</h3>
+
+            </div>
+
+            <p id="address"></p>
+
+        </section>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
