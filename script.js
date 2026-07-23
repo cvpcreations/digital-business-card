@@ -1,122 +1,137 @@
 async function loadData() {
+
     try {
 
         const response = await fetch("data.json");
         const data = await response.json();
 
-        // Profile
+        /* ==========================
+           PROFILE
+        ========================== */
+
         document.getElementById("name").textContent = data.name || "";
         document.getElementById("designation").textContent = data.designation || "";
         document.getElementById("company").textContent = data.company || "";
         document.getElementById("tagline").textContent = data.tagline || "";
 
-        // Profile Image
-        if (data.profileImage) {
-            const img = document.getElementById("profileImage");
-            if (img) {
-                img.src = data.profileImage;
-                img.style.display = "block";
-            }
+        const profileImage = document.getElementById("profileImage");
+        const profileInitials = document.getElementById("profileInitials");
+
+        if (data.profileImage && data.profileImage.trim() !== "") {
+
+            profileImage.src = data.profileImage;
+            profileImage.style.display = "block";
+            profileInitials.style.display = "none";
+
+        } else {
+
+            const initials = (data.name || "")
+                .split(" ")
+                .map(word => word.charAt(0))
+                .join("")
+                .substring(0, 2)
+                .toUpperCase();
+
+            profileInitials.textContent = initials || "CV";
+            profileInitials.style.display = "flex";
+            profileImage.style.display = "none";
         }
 
-        // Call
+        /* ==========================
+           CALL
+        ========================== */
+
         if (data.phone) {
+
             const btn = document.getElementById("callBtn");
-            if (btn) {
-                btn.href = "tel:" + data.phone;
-                btn.style.display = "flex";
-            }
+
+            btn.href = "tel:" + data.phone;
+            btn.style.display = "flex";
+
         }
 
-        // WhatsApp
+        /* ==========================
+           WHATSAPP
+        ========================== */
+
         if (data.whatsapp) {
+
             const btn = document.getElementById("whatsappBtn");
-            if (btn) {
-                btn.href = "https://wa.me/" + data.whatsapp;
-                btn.style.display = "flex";
-            }
+
+            btn.href = "https://wa.me/" + data.whatsapp;
+            btn.target = "_blank";
+            btn.style.display = "flex";
+
         }
 
-        // Email
-        if (data.email) {
-            const btn = document.getElementById("emailBtn");
-            if (btn) {
-                btn.href = "mailto:" + data.email;
-                btn.style.display = "flex";
-            }
-        }
+        /* ==========================
+           ABOUT
+        ========================== */
 
-        // Website
-        if (data.website) {
-            const btn = document.getElementById("websiteBtn");
-            if (btn) {
-                btn.href = data.website;
-                btn.target = "_blank";
-                btn.style.display = "flex";
-            }
-        }
-
-        // Directions
-        if (data.googleMaps) {
-            const btn = document.getElementById("directionBtn");
-            if (btn) {
-                btn.href = data.googleMaps;
-                btn.target = "_blank";
-                btn.style.display = "flex";
-            }
-        }
-
-        // About
         if (data.about) {
-            const about = document.getElementById("about");
-            const aboutSection = document.getElementById("aboutSection");
 
-            if (about && aboutSection) {
-                about.textContent = data.about;
-                aboutSection.style.display = "block";
-            }
+            document.getElementById("about").textContent = data.about;
+            document.getElementById("aboutSection").style.display = "block";
+
         }
 
-        // Address
+        /* ==========================
+           ADDRESS
+        ========================== */
+
         if (data.address) {
-            const address = document.getElementById("address");
-            const addressSection = document.getElementById("addressSection");
 
-            if (address && addressSection) {
-                address.textContent = data.address;
-                addressSection.style.display = "block";
-            }
+            document.getElementById("address").textContent = data.address;
+            document.getElementById("addressSection").style.display = "block";
+
         }
 
-        // Save Contact
+        /* ==========================
+           SAVE CONTACT
+        ========================== */
+
         const saveBtn = document.getElementById("saveBtn");
 
-        if (saveBtn) {
-            saveBtn.href = "contact.vcf";
-            saveBtn.setAttribute("download", (data.name || "Contact") + ".vcf");
-            saveBtn.style.display = "flex";
-        }
+        saveBtn.href = "contact.vcf";
+        saveBtn.download = (data.name || "Contact") + ".vcf";
+        saveBtn.style.display = "flex";
 
-        // Share
-        const shareBtn = document.getElementById("shareBtn");
+        /* ==========================
+           SHARE
+        ========================== */
 
-        if (shareBtn) {
-            shareBtn.addEventListener("click", async () => {
-                if (navigator.share) {
+        document.getElementById("shareBtn").addEventListener("click", async () => {
+
+            if (navigator.share) {
+
+                try {
+
                     await navigator.share({
                         title: data.name,
                         text: data.company,
                         url: window.location.href
                     });
-                } else {
-                    alert("Sharing is not supported on this device.");
-                }
-            });
-        }
 
-    } catch (err) {
-        console.error("SCRIPT ERROR:", err);
+                } catch (e) {}
+
+            } else {
+
+                navigator.clipboard.writeText(window.location.href);
+
+                alert("Link copied to clipboard.");
+
+            }
+
+        });
+
     }
+
+    catch (error) {
+
+        console.error(error);
+
+    }
+
 }
 
 loadData();
